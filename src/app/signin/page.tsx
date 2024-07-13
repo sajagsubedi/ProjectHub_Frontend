@@ -40,7 +40,7 @@ export default function Page() {
                     </div>
                     <div className="relative mb-4">
                         <label
-                            htmlFor="message"
+                            htmlFor="password"
                             className="leading-7 text-sm text-gray-600"
                         >
                             Password

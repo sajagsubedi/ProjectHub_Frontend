@@ -4,7 +4,7 @@ import Link from "next/link";
 import { MdOutlineSort } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { usePathname } from 'next/navigation'
-
+import Image from "next/image"
 
 type NavLinkPropType = {
     route: String,
@@ -37,7 +37,7 @@ export default function Header() {
         <>
             <nav className="bg-white flex items-center justify-between px-4 py-1 box-border gap-4 sticky top-0  h-16 z-[99] shadow-lg shadow-gray-200 ">
                 <Link className="flex" href="/">
-                    <img src="/logo.png" className="h-8 w-8" alt="logo"/>
+                    <Image src="/logo.png" className="h-8 w-8" alt="logo" width={30} height={30}/>
                     <h1 className="text-xl font-bold text-rose-600">ProjectHub</h1>
                 </Link>
                 <div className={`md:w-[85%] lg:w-[70%] md:flex justify-between md:py-1 md:h-full items-center md:static md:flex-row overflow-hidden md:overflow-visible md:px-3 fixed flex-col h-[100vh] transition-all duration-500 delay-0 w-0  ${navActive ? "w-60" : ""
