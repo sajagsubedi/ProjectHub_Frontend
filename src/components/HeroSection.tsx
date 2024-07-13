@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from "next/image"
 
 const HeroSection = () => {
     return (
@@ -20,7 +21,7 @@ const HeroSection = () => {
                     </div>
             </div>
             <div className='w-full md:w-[40%] py-20 absolute md:static max-w-[100vw] left-0 overflow-hidden -z-1 opacity-20 md:opacity-100'>
-                <img src="/banner.jpg" className='w-full' alt="banner" />
+                <Image src="/banner.jpg" className='w-full' width={600} height={600} alt="banner" />
             </div>
         </section>
     )
