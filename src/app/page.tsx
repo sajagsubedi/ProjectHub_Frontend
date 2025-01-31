@@ -1,12 +1,14 @@
-import HeroSection from '@/components/HeroSection'
-import React from 'react'
+import FeaturesSection from "@/components/Features";
+import HeroSection from "@/components/HeroSection";
+import React from "react";
 
 const Home = () => {
   return (
     <>
-      <HeroSection/>
+      <HeroSection />
+      <FeaturesSection />
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

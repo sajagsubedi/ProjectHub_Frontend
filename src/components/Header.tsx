@@ -62,12 +62,12 @@ export default function Header() {
                     </ul>
                     <div className="md:w-[20%] flex items-center w-full justify-center pr-2 gap-2 mt-10 md:mt-0">
                         <Link href="/signin"
-                            className="bg-white border-rose-600 hover:bg-rose-600 hover:text-white shadow-sm border-2  outline-none py-2 px-5 font-bold rounded-full text-rose-600 flex items-center gap-2 max-w-max"
+                            className="bg-white border-rose-600 hover:bg-rose-600 hover:text-white shadow-sm border-2  outline-none py-2 px-5 font-bold rounded text-rose-600 flex items-center gap-2 max-w-max"
                         >
                             Signin
                         </Link>
                         <Link href="/signup"
-                            className="bg-rose-600 border-2 border-rose-600  hover:bg-rose-700 outline-none py-2 px-5 font-bold rounded-full text-white flex items-center gap-2 max-w-max "
+                            className="bg-rose-600 border-2 border-rose-600  hover:bg-rose-700 outline-none py-2 px-5 font-bold rounded text-white flex items-center gap-2 max-w-max "
                         > 
                             Signup
                         </Link>
