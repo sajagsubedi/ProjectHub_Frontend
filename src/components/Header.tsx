@@ -35,7 +35,7 @@ export default function Header() {
 
     return (
         <>
-            <nav className="bg-white flex items-center justify-between px-4 py-1 box-border gap-4 sticky top-0  h-16 z-[99] shadow-lg shadow-gray-200 ">
+            <nav className="bg-white flex items-center justify-between px-4 py-1 box-border gap-4 sticky top-0  h-20 z-[99] border-b-4 border-rose-500">
                 <Link className="flex" href="/">
                     <Image src="/logo.png" className="h-8 w-8" alt="logo" width={30} height={30}/>
                     <h1 className="text-xl font-bold text-rose-600">ProjectHub</h1>
@@ -45,7 +45,7 @@ export default function Header() {
                     >
 
                     <ul
-                        className="md:w-[80%] flex flex-col justify-between md:flex-row">
+                        className="md:w-[80%] flex flex-col justify-between md:flex-row gap-5">
                         <div className="w-full flex justify-end md:hidden ">
                             <button
                                 className="text-2xl p-3 text-gray-400"

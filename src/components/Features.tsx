@@ -60,7 +60,7 @@ const FeaturesSection: React.FC<FeaturesSectionProps> = ({
   features = defaultFeatures,
 }) => {
   return (
-    <section className="py-10 md:px-[5vw]">
+    <section className="py-10 md:px-[5vw] px-6">
       <div className="max-w-7xl mx-auto text-center mb-12">
         <div className="w-full lg:mb-0 flex flex-col items-center">
           <div className="h-1 w-20 bg-rose-500 rounded"></div>
