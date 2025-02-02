@@ -37,7 +37,7 @@ const steps = [
 
 export default function HowItWorksSection() {
   return (
-    <section className="py-16 px-6 md:px-[5vw] bg-gray-50">
+    <section className="py-16 px-6 md:px-[5vw]">
       <div className="mx-auto text-center mb-12">
         <div className="w-full lg:mb-0 flex flex-col items-center">
           <span className="h-1 w-20 bg-rose-500 rounded mb-4"></span>

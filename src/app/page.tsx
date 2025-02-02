@@ -1,3 +1,6 @@
+"use client"
+
+import CTASection from "@/components/CTASection";
 import FeaturesSection from "@/components/Features";
 import HeroSection from "@/components/HeroSection";
 import HowItWorksSection from "@/components/HowItWorks";
@@ -15,7 +18,8 @@ const Home = () => {
       <HeroSection />
       <FeaturesSection />
       <HowItWorksSection />
-      <TestimonialSection/>
+      <TestimonialSection />
+      <CTASection />
     </>
   );
 };
