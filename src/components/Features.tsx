@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   FaProjectDiagram,
@@ -7,6 +9,7 @@ import {
   FaPalette,
   FaCloudUploadAlt,
 } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 // Define the type for a feature
 type Feature = {
@@ -76,27 +79,7 @@ const FeaturesSection: React.FC<FeaturesSectionProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
         {features.length > 0 ? (
           features.map((feature, index) => (
-            <div key={index} className="flex">
-              <div className="feature-card shadow-md py-6 px-5 rounded-2xl bg-white hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 flex flex-col h-full w-full">
-                <div className="flex flex-col items-center text-center flex-grow">
-                  <div className="mb-4">
-                    <div className="mb-6 p-4 bg-rose-50 rounded-full">
-                      {React.cloneElement(feature.icon, {
-                        size: 32,
-                        className:
-                          "transition-colors duration-300 text-rose-500",
-                      })}
-                    </div>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-600 text-base">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-            </div>
+            <FeatureCard key={index} feature={feature} index={index} />
           ))
         ) : (
           <p className="text-gray-600 col-span-full text-center">
@@ -105,6 +88,39 @@ const FeaturesSection: React.FC<FeaturesSectionProps> = ({
         )}
       </div>
     </section>
+  );
+};
+
+// FeatureCard Component with Framer Motion Animation
+const FeatureCard: React.FC<{ feature: Feature; index: number }> = ({
+  feature,
+  index,
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 70 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 + index * 0.5 }}
+      viewport={{ once: true }}
+      className="flex"
+    >
+      <div className="feature-card shadow-md py-6 px-5 rounded-2xl bg-white hover:shadow-lg transition-all duration-300 ease-in-out transform hover:-translate-y-1 flex flex-col h-full w-full">
+        <div className="flex flex-col items-center text-center flex-grow">
+          <div className="mb-4">
+            <div className="mb-6 p-4 bg-rose-50 rounded-full">
+              {React.cloneElement(feature.icon, {
+                size: 32,
+                className: "transition-colors duration-300 text-rose-500",
+              })}
+            </div>
+          </div>
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            {feature.title}
+          </h3>
+          <p className="text-gray-600 text-base">{feature.description}</p>
+        </div>
+      </div>
+    </motion.div>
   );
 };
 

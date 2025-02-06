@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { FiCheckCircle, FiFolder, FiList, FiLayout } from "react-icons/fi";
 
 export default function CTASection() {
   return (
@@ -12,20 +11,33 @@ export default function CTASection() {
         {/* Left Content */}
         <div className="space-y-8 text-center lg:text-left w-full">
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold text-gray-700 leading-tight"
           >
             Ready to Elevate Your Project Management?
           </motion.h1>
 
-          <p className="text-lg text-gray-600 lg:pr-20">
+          <motion.p
+            initial={{ opacity: 0,  y:60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65 }}
+            viewport={{ once: true }}
+            className="text-lg text-gray-600 lg:pr-20"
+          >
             Join thousands of professionals using ProjectHubify to streamline
             their workflow. Get started in just a few clicks!
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <motion.div
+            initial={{ opacity: 0, y: 70 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+          >
             <Link
               href="/signup"
               className="bg-rose-600 border-2 border-rose-600 transition-all transform hover:scale-105 outline-none py-2 px-5 font-bold rounded text-white flex items-center gap-2 max-w-max "
@@ -35,7 +47,7 @@ export default function CTASection() {
             <button className="border-2 border-rose-500 text-rose-500 px-8 py-4 rounded-lg font-semibold hover:bg-rose-50 transition-all transform hover:scale-105">
               Start Managing Projects
             </button>
-          </div>
+          </motion.div>
         </div>
 
         <motion.div
