@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-const SIGN_UP = gql`
+export const SIGN_UP = gql`
   mutation Signup(
     $fullName: String!
     $email: String!
@@ -15,14 +15,17 @@ const SIGN_UP = gql`
     ) {
       success
       message
-      user {
-        _id
-        fullName
-        email
-        username
-      }
     }
   }
 `;
 
-export { SIGN_UP };
+export const SIGN_IN = gql`
+  mutation Signin($identifier: String!, $password: String!) {
+    signin(identifier: $identifier, password: $password) {
+      success
+      message
+      accessToken
+      refreshToken
+    }
+  }
+`;

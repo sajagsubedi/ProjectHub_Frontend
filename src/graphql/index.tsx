@@ -1,3 +1,3 @@
-import { SIGN_UP } from "./mutations/user.mutations";
+import { SIGN_UP, SIGN_IN } from "./mutations/user.mutations";
 
-export { SIGN_UP };
+export { SIGN_UP, SIGN_IN };
