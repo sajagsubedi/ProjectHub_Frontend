@@ -5,6 +5,8 @@ import { MdOutlineSort } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { useQuery } from "@apollo/client";
+import { GET_AUTHUSER } from "@/graphql";
 
 type NavLinkPropType = {
   route: String;
@@ -33,6 +35,8 @@ const NavLink = ({ route, children }: NavLinkPropType) => {
 
 export default function Header() {
   const [navActive, setNavActive] = useState<boolean>(false);
+  const { data, loading } = useQuery(GET_AUTHUSER);
+  const [userDropDown, setUserDropDown] = useState(false);
 
   return (
     <>
@@ -47,7 +51,7 @@ export default function Header() {
           />
         </Link>
         <div
-          className={`md:w-[85%] lg:w-[70%] md:flex justify-between md:py-1 md:h-full items-center md:static md:flex-row overflow-hidden md:overflow-visible md:px-3 fixed flex-col h-[100vh] transition-all duration-500 delay-0 w-0  ${
+          className={`md:w-[85%] lg:w-[70%] md:flex justify-between md:py-1 md:h-full items-center md:static md:flex-row overflow-hidden md:overflow-visible md:px-3 fixed z-[99] flex-col h-[100vh] transition-all duration-500 delay-0 w-0  ${
             navActive ? "w-60" : ""
           } top-0 right-0 bg-gray-100 md:bg-transparent shadow-gray-300 shadow-3xl md:gap-4 gap-1 py-2`}
         >
@@ -66,29 +70,100 @@ export default function Header() {
             <NavLink route="/products">Products</NavLink>
             <NavLink route="/contact">Contact Us</NavLink>
           </ul>
-          <div className="md:w-[20%] flex items-center w-full justify-center pr-2 gap-2 mt-10 md:mt-0">
-            <Link
-              href="/signin"
-              className="bg-white border-rose-600 hover:bg-rose-100 transition-all transform hover:scale-105 shadow-sm border-2 outline-none py-2 px-5 font-bold rounded text-rose-600 flex items-center gap-2 max-w-max"
-            >
-              Signin
-            </Link>
-            <Link
-              href="/signup"
-              className="bg-rose-600 border-2 border-rose-600 transition-all transform hover:scale-105 outline-none py-2 px-5 font-bold rounded text-white flex items-center gap-2 max-w-max "
-            >
-              Signup
-            </Link>
-          </div>
+          {!data?.authUser?.isAuthenticated && (
+            <div className="md:w-[20%] flex items-center w-full justify-center pr-2 gap-2 mt-10 md:mt-0">
+              <Link
+                href="/signin"
+                className="bg-white border-rose-600 hover:bg-rose-100 transition-all transform hover:scale-105 shadow-sm border-2 outline-none py-2 px-5 font-bold rounded text-rose-600 flex items-center gap-2 max-w-max"
+              >
+                Signin
+              </Link>
+              <Link
+                href="/signup"
+                className="bg-rose-600 border-2 border-rose-600 transition-all transform hover:scale-105 outline-none py-2 px-5 font-bold rounded text-white flex items-center gap-2 max-w-max "
+              >
+                Signup
+              </Link>
+            </div>
+          )}
         </div>
-        <button
-          className="text-2xl p-3 text-gray-400 md:hidden"
-          onClick={() => {
-            setNavActive(true);
-          }}
-        >
-          <MdOutlineSort />
-        </button>
+        <div className="flex items-center gap-2">
+          {data?.authUser?.isAuthenticated && data.authUser.user && (
+            <div className="relative ">
+              <button
+                type="button"
+                className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 "
+                onClick={() => setUserDropDown(!userDropDown)}
+              >
+                <Image 
+                  className="w-8 h-8 rounded-full"
+                  src={data?.authUser.user.avatar.url}
+                  alt="user photo"
+                  width={32}
+                  height={32}
+                />
+              </button>
+              {/* Dropdown menu */}
+              <div
+                className={`z-1  my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow   absolute right-0 top-5 max-w-[170px] overflow-hidden
+              transition-all duration-300 ease-in-out ${
+                !userDropDown ? "h-0" : "h-56"
+              }`}
+              >
+                <div className="px-4 py-3">
+                  <span className="block text-sm text-gray-900 truncate">
+                    {data?.authUser.user.fullName}
+                  </span>
+                  <span className="block text-sm text-gray-500 truncate ">
+                    {data?.authUser.user.email}
+                  </span>
+                </div>
+                <ul className="py-2">
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 truncate"
+                    >
+                      My Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 truncate"
+                    >
+                      Billing & Payments
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 truncate"
+                    >
+                      Settings
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 truncate"
+                    >
+                      Sign out
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+          <button
+            className="text-2xl p-3 text-gray-400 md:hidden"
+            onClick={() => {
+              setNavActive(true);
+            }}
+          >
+            <MdOutlineSort />
+          </button>
+        </div>
       </nav>
     </>
   );

@@ -14,6 +14,7 @@ export default function Page() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isSubmitting },
   } = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -23,7 +24,9 @@ export default function Page() {
     },
   });
 
-  const [signin, { loading, error }] = useMutation(SIGN_IN);
+  const [signin, { loading, error }] = useMutation(SIGN_IN, {
+    refetchQueries: ["AuthUser"],
+  });
 
   const router = useRouter();
 
@@ -38,7 +41,9 @@ export default function Page() {
       toast.success(response.data.signin.message);
       localStorage.setItem("accessToken", response.data.signin.accessToken);
       localStorage.setItem("refreshToken", response.data.signin.refreshToken);
-      // router.push("/dashboard");
+      // reset form values
+      reset();
+      router.push("/dashboard");
     } else {
       toast.error(response.data.signin.message);
     }
