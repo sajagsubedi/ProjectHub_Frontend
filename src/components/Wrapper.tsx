@@ -4,6 +4,7 @@ import React from "react";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { ToastContainer } from "react-toastify";
 import createUploadLink from "apollo-upload-client/createUploadLink.mjs";
+import { AuthProvider } from "@/context/AuthProviders";
 
 const client = new ApolloClient({
   link: createUploadLink({
@@ -19,8 +20,10 @@ const client = new ApolloClient({
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <ApolloProvider client={client}>
-      <ToastContainer />
-      {children}
+      <AuthProvider>
+        <ToastContainer />
+        {children}
+      </AuthProvider>
     </ApolloProvider>
   );
 };

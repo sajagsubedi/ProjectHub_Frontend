@@ -5,8 +5,8 @@ import { MdOutlineSort } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useQuery } from "@apollo/client";
-import { GET_AUTHUSER } from "@/graphql";
+import { useAuth } from "@/context/AuthProviders";
+import UserDropDown from "./UserDropDown";
 
 type NavLinkPropType = {
   route: String;
@@ -35,8 +35,12 @@ const NavLink = ({ route, children }: NavLinkPropType) => {
 
 export default function Header() {
   const [navActive, setNavActive] = useState<boolean>(false);
-  const { data, loading } = useQuery(GET_AUTHUSER);
+  const { user, isAuthenticated } = useAuth();
   const [userDropDown, setUserDropDown] = useState(false);
+
+  const changeUserDropDown = (value: boolean): void => {
+    setUserDropDown(value);
+  };
 
   return (
     <>
@@ -65,12 +69,12 @@ export default function Header() {
               </button>
             </div>
             <NavLink route="/">Home</NavLink>
-            <NavLink route="/about">About Us</NavLink>
-            <NavLink route="/services">Services</NavLink>
-            <NavLink route="/products">Products</NavLink>
+            <NavLink route="/aboutus">About Us</NavLink>
+            <NavLink route="#features">Features</NavLink>
+            <NavLink route="/dashboard">Dashboard</NavLink>
             <NavLink route="/contact">Contact Us</NavLink>
           </ul>
-          {!data?.authUser?.isAuthenticated && (
+          {!isAuthenticated && (
             <div className="md:w-[20%] flex items-center w-full justify-center pr-2 gap-2 mt-10 md:mt-0">
               <Link
                 href="/signin"
@@ -88,72 +92,11 @@ export default function Header() {
           )}
         </div>
         <div className="flex items-center gap-2">
-          {data?.authUser?.isAuthenticated && data.authUser.user && (
-            <div className="relative ">
-              <button
-                type="button"
-                className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 "
-                onClick={() => setUserDropDown(!userDropDown)}
-              >
-                <Image 
-                  className="w-8 h-8 rounded-full"
-                  src={data?.authUser.user.avatar.url}
-                  alt="user photo"
-                  width={32}
-                  height={32}
-                />
-              </button>
-              {/* Dropdown menu */}
-              <div
-                className={`z-1  my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow   absolute right-0 top-5 max-w-[170px] overflow-hidden
-              transition-all duration-300 ease-in-out ${
-                !userDropDown ? "h-0" : "h-56"
-              }`}
-              >
-                <div className="px-4 py-3">
-                  <span className="block text-sm text-gray-900 truncate">
-                    {data?.authUser.user.fullName}
-                  </span>
-                  <span className="block text-sm text-gray-500 truncate ">
-                    {data?.authUser.user.email}
-                  </span>
-                </div>
-                <ul className="py-2">
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 truncate"
-                    >
-                      My Profile
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 truncate"
-                    >
-                      Billing & Payments
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 truncate"
-                    >
-                      Settings
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 truncate"
-                    >
-                      Sign out
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
+          {isAuthenticated && user && (
+            <UserDropDown
+              userDropDown={userDropDown}
+              changeUserDropDown={changeUserDropDown}
+            />
           )}
           <button
             className="text-2xl p-3 text-gray-400 md:hidden"
