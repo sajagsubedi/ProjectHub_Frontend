@@ -15,8 +15,7 @@ export const SIGN_UP = gql`
       username: $username
       password: $password
     ) {
-      success
-      message
+      fullName
     }
   }
 `;
@@ -24,8 +23,6 @@ export const SIGN_UP = gql`
 export const SIGN_IN = gql`
   mutation Signin($identifier: String!, $password: String!) {
     signin(identifier: $identifier, password: $password) {
-      success
-      message
       accessToken
       refreshToken
     }

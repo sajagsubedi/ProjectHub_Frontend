@@ -1,18 +1,16 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/publicComponents/Header";
+import Footer from "@/components/publicComponents/Footer";
 
-export default function RootLayout({
+export default function LandingLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </body>
-    </html>
+    <>
+      <Header />
+      <main>{children}</main>
+      <Footer />
+    </>
   );
 }

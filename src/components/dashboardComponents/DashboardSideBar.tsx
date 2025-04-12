@@ -48,7 +48,7 @@ const NavLinks = ({ closeDropDown }: { closeDropDown: () => void }) => {
   );
 };
 
-export default function UserDashboard() {
+export default function DashboardSideBar() {
   const [userDropDown, setUserDropDown] = useState(false);
   const [navMenu, setNavMenu] = useState(false);
 

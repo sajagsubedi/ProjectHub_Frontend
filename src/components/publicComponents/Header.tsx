@@ -6,7 +6,7 @@ import { IoClose } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthProviders";
-import UserDropDown from "./UserDropDown";
+import UserDropDown from "../dashboardComponents/UserDropDown";
 
 type NavLinkPropType = {
   route: String;

@@ -2,14 +2,22 @@
 
 import { useAuth } from "@/context/AuthProviders";
 import { useRouter } from "next/navigation";
-import React from "react";
+import { useEffect } from "react";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
-  if (!isAuthenticated) {
-    router.push("/signin");
+
+  useEffect(() => {
+    if (!user) {
+      router.push("/signin");
+    }
+  }, [user, router]);
+
+  if (!user) {
+    return null;
   }
+
   return children;
 };
 

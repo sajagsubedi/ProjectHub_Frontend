@@ -21,20 +21,17 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   refetchUser: () => void;
-  isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
   refetchUser: () => {},
-  isAuthenticated: false,
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { data, loading, refetch } = useQuery(GET_AUTHUSER);
   const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [isClient, setIsClient] = useState(false);
 
@@ -44,8 +41,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (data?.authUser) {
-      setUser(data.authUser.user);
-      setIsAuthenticated(data.authUser.isAuthenticated);
+      setUser(data.authUser);
       console.log("user", data.authUser);
     } else {
       setUser(null);
@@ -60,9 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider
-      value={{ user, loading, refetchUser, isAuthenticated }}
-    >
+    <AuthContext.Provider value={{ user, loading, refetchUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,24 +1,21 @@
-import AdminHeader from "@/components/AdminHeader";
-import ProtectedRoute from "@/components/ProtectedRoute";
+// app/dashboard/layout.tsx
+import DashboardSideBar from "@/components/dashboardComponents/DashboardSideBar";
+import ProtectedRoute from "@/components/Wrapper/ProtectedRoute";
 
 export const metadata = {
-  title: "ProjectHub -User dashboard",
+  title: "ProjectHub - User dashboard",
   description: "User dashboard for project hub",
 };
 
-export default function RootLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>
-        <ProtectedRoute>
-          <AdminHeader />
-          {children}
-        </ProtectedRoute>
-      </body>
-    </html>
+    <ProtectedRoute>
+      <DashboardSideBar />
+      {children}
+    </ProtectedRoute>
   );
 }

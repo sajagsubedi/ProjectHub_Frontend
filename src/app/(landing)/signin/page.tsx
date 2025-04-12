@@ -8,7 +8,9 @@ import { LuLoaderCircle } from "react-icons/lu";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { SIGN_IN } from "@/graphql";
-import { useMutation } from "@apollo/client";
+import { ApolloError, useMutation } from "@apollo/client";
+import { use, useEffect } from "react";
+import { useAuth } from "@/context/AuthProviders";
 
 export default function Page() {
   const {
@@ -24,6 +26,8 @@ export default function Page() {
     },
   });
 
+  const { user } = useAuth();
+
   const [signin, { loading, error }] = useMutation(SIGN_IN, {
     refetchQueries: ["AuthUser"],
   });
@@ -31,23 +35,31 @@ export default function Page() {
   const router = useRouter();
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    const response = await signin({
-      variables: {
-        identifier: data.identifier,
-        password: data.password,
-      },
-    });
-    if (response.data.signin.success) {
-      toast.success(response.data.signin.message);
-      localStorage.setItem("accessToken", response.data.signin.accessToken);
-      localStorage.setItem("refreshToken", response.data.signin.refreshToken);
+    try {
+      const response = await signin({
+        variables: {
+          identifier: data.identifier,
+          password: data.password,
+        },
+      });
+
+      const { refreshToken, accessToken } = response.data.signin;
+      toast.success("Signin successsfull! Proceed to dashboard");
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
       // reset form values
       reset();
-      router.push("/dashboard");
-    } else {
-      toast.error(response.data.signin.message);
+    } catch (err) {
+      const error = err as ApolloError;
+      toast.error(error.message);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [user, router]);
 
   return (
     <section className="text-gray-600 body-font px-6 pt-20 flex justify-center">

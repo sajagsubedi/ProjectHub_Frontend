@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, SignUpSchemaType } from "@/schemas/signUpSchema";
 import { LuLoaderCircle } from "react-icons/lu";
 import { SIGN_UP } from "@/graphql";
-import { useMutation } from "@apollo/client";
+import { ApolloError, useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
@@ -34,7 +34,7 @@ export default function Page() {
   const onSubmit = async (data: SignUpSchemaType) => {
     console.log(data);
     try {
-      const response = await signup({
+      await signup({
         variables: {
           avatar: data.avatar,
           fullName: data.fullName,
@@ -44,15 +44,12 @@ export default function Page() {
         },
       });
 
-      if (response.data.signup.success) {
-        toast.success(response.data.signup.message);
-        reset(); // Reset form values
-        router.push("/signin");
-      } else {
-        toast.error(response.data.signup.message);
-      }
+      toast.success("User registered succesfully! You can proceed to signin");
+      reset(); // Reset form values
+      router.push("/signin");
     } catch (err) {
-      toast.error("An error occurred. Please try again.");
+      const error = err as ApolloError;
+      toast.error(error?.message);
     }
   };
 
