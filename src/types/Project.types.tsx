@@ -14,12 +14,13 @@ export enum statusEnum {
   Open = "Open",
 }
 
-export interface ProjectCardProps {
-  id: string;
+export interface ProjectType {
+  _id: string;
   projectName: string;
   description: string;
   category?: categoryEnum;
   status?: statusEnum;
   deadline?: Date;
   techStack?: string[];
+  isPinned?: true;
 }

@@ -1,8 +1,10 @@
-import { sampleProjects } from "@/constants/Projects";
 import ProjectCard from "./ProjectCard";
-import { categoryEnum, statusEnum } from "@/types/Project.types";
+import { ProjectType } from "@/types/Project.types";
+import { useQuery } from "@apollo/client";
+import { GETPINNEDPROJECTS } from "@/graphql";
 
 export default function PinnedProjects() {
+  const { data, loading } = useQuery(GETPINNEDPROJECTS);
   return (
     <div className="container mx-auto p-6">
       <div className="w-full flex flex-col items-center">
@@ -11,20 +13,16 @@ export default function PinnedProjects() {
           Pinned Projects
         </h2>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sampleProjects.map((project) => (
-          <ProjectCard
-            key={project.id}
-            id={project.id}
-            projectName={project.projectName}
-            description={project.description}
-            category={project.category as categoryEnum}
-            status={project.status as statusEnum}
-            deadline={new Date(project.deadline)}
-            techStack={project.techStack}
-          />
-        ))}
-      </div>
+      {loading && <div>Loading</div>}
+      {!loading && data.getPinnedProjects.length != 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {data?.getPinnedProjects.map((project: ProjectType, ind: number) => (
+            <ProjectCard key={ind} project={project} />
+          ))}
+        </div>
+      ) : (
+        <p className="text-red-500 text-2xl">No projects pinned!</p>
+      )}
     </div>
   );
 }

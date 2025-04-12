@@ -4,7 +4,7 @@
 import React from "react";
 import Link from "next/link";
 import { format, isValid } from "date-fns";
-import { ProjectCardProps } from "@/types/Project.types";
+import { ProjectType } from "@/types/Project.types";
 
 // Utility function to get status badge color
 const getStatusColor = (status?: string) => {
@@ -46,15 +46,17 @@ const getCategoryColor = (category?: string) => {
 const truncateText = (text: string, maxLength: number) =>
   text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
-const ProjectCard: React.FC<ProjectCardProps> = ({
-  id,
-  projectName,
-  description,
-  category = "Other",
-  status = "Pending",
-  deadline,
-  techStack = [],
-}) => {
+const ProjectCard = ({ project }: { project: ProjectType }) => {
+  const {
+    _id,
+    projectName,
+    description,
+    category,
+    status,
+    deadline,
+    techStack,
+    isPinned,
+  } = project;
   const formattedDeadline =
     deadline && isValid(new Date(deadline))
       ? format(new Date(deadline), "MMM dd, yyyy")
@@ -101,7 +103,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </p>
 
       {/* Tech Stack */}
-      {techStack.length > 0 && (
+      {techStack && techStack.length > 0 && (
         <div className="mt-3">
           <p className="text-sm text-gray-600 font-medium">Tech Stack:</p>
           <div className="flex flex-wrap gap-1 mt-1">
@@ -124,7 +126,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
       {/* View Details Button - Uses rose-500 */}
       <div className="mt-4">
-        <Link href={`/dashboard/projects/${id}`}>
+        <Link href={`/dashboard/projects/${_id}`}>
           <button className="w-full bg-rose-500 text-white py-2 px-4 rounded-md hover:bg-rose-600 transition-colors">
             View Details
           </button>
