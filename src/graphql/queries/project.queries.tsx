@@ -13,3 +13,17 @@ export const GETPINNEDPROJECTS = gql`
     }
   }
 `;
+
+export const GETALLPROJECTS = gql`
+  query GetAllProjects {
+    getAllProjects {
+      _id
+      projectName
+      description
+      status
+      category
+      deadline
+      techStack
+    }
+  }
+`;
