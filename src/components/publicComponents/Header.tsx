@@ -35,7 +35,7 @@ const NavLink = ({ route, children }: NavLinkPropType) => {
 
 export default function Header() {
   const [navActive, setNavActive] = useState<boolean>(false);
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const [userDropDown, setUserDropDown] = useState(false);
 
   const changeUserDropDown = (value: boolean): void => {
@@ -74,7 +74,7 @@ export default function Header() {
             <NavLink route="/dashboard">Dashboard</NavLink>
             <NavLink route="/contact">Contact Us</NavLink>
           </ul>
-          {!isAuthenticated && (
+          {!user && (
             <div className="md:w-[20%] flex items-center w-full justify-center pr-2 gap-2 mt-10 md:mt-0">
               <Link
                 href="/signin"
@@ -92,7 +92,7 @@ export default function Header() {
           )}
         </div>
         <div className="flex items-center gap-2">
-          {isAuthenticated && user && (
+          {user && (
             <UserDropDown
               userDropDown={userDropDown}
               changeUserDropDown={changeUserDropDown}

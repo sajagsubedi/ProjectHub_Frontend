@@ -7,9 +7,9 @@ import { signInSchema } from "@/schemas/signInSchema";
 import { LuLoaderCircle } from "react-icons/lu";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { SIGN_IN } from "@/graphql";
+import { SIGN_IN, GET_AUTHUSER } from "@/graphql";
 import { ApolloError, useMutation } from "@apollo/client";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
 import { useAuth } from "@/context/AuthProviders";
 
 export default function Page() {
@@ -29,7 +29,7 @@ export default function Page() {
   const { user } = useAuth();
 
   const [signin, { loading, error }] = useMutation(SIGN_IN, {
-    refetchQueries: ["AuthUser"],
+    refetchQueries: [GET_AUTHUSER],
   });
 
   const router = useRouter();
