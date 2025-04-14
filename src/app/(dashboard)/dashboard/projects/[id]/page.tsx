@@ -9,6 +9,7 @@ import {
   FaLink,
   FaBookOpen,
   FaExternalLinkAlt,
+  FaArrowLeft,
 } from "react-icons/fa";
 import { MdPushPin, MdOutlinePushPin } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
@@ -78,7 +79,13 @@ export default function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <main className="w-full px-10 py-10">
+    <main className="w-full px-10 py-4">
+      <button
+        className="text-white py-2 p-1 rounded outline-none bg-rose-500 mb-10 flex gap-2 items-center justify-center hover:bg-rose-600"
+        onClick={() => window.history.back()}
+      >
+        <FaArrowLeft /> Back
+      </button>
       <section className="min-h-screen bg-gradient-to-br from-gray-50 via-white shadow-lg to-gray-50 rounded-2xl overflow-hidden pb-5">
         <div className="bg-gradient-to-r from-rose-500 to-rose-400 p-8">
           <div className="flex justify-between items-start">
@@ -145,25 +152,27 @@ export default function Page({ params }: { params: { id: string } }) {
               </div>
               <div className="relative">
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {visibleImages?.map((draft, index) => (
-                    <div key={index} className="relative group">
-                      <Image
-                        src={draft?.url}
-                        alt="UI Draft"
-                        height={400}
-                        width={400}
-                        className="rounded-lg w-full h-48 object-cover hover:opacity-90 transition-opacity"
-                      />
-                      {index === 2 && !showAllImages && hasMoreImages && (
-                        <button
-                          onClick={() => setShowAllImages(true)}
-                          className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center text-white font-semibold"
-                        >
-                          +{project.draftUi!.length - 3} more
-                        </button>
-                      )}
-                    </div>
-                  ))}
+                  {visibleImages?.map(
+                    (draft: { url: string; public_id?: string }, index) => (
+                      <div key={index} className="relative group">
+                        <Image
+                          src={draft?.url}
+                          alt="UI Draft"
+                          height={400}
+                          width={400}
+                          className="rounded-lg w-full h-48 object-cover hover:opacity-90 transition-opacity"
+                        />
+                        {index === 2 && !showAllImages && hasMoreImages && (
+                          <button
+                            onClick={() => setShowAllImages(true)}
+                            className="absolute inset-0 bg-black/50 rounded-lg flex items-center justify-center text-white font-semibold"
+                          >
+                            +{project.draftUi!.length - 3} more
+                          </button>
+                        )}
+                      </div>
+                    )
+                  )}
                 </div>
                 {hasMoreImages && (
                   <div className="mt-4 flex justify-center">

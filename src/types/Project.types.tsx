@@ -22,5 +22,9 @@ export interface ProjectType {
   status?: statusEnum;
   deadline?: Date;
   techStack?: string[];
+  links?: {
+    source?: string;
+    deployment?: string;
+  };
   isPinned?: true;
 }

@@ -10,6 +10,7 @@ export const GETPINNEDPROJECTS = gql`
       category
       deadline
       techStack
+      isPinned
     }
   }
 `;
