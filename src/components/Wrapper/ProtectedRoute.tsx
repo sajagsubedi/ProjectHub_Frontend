@@ -5,14 +5,24 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) {
+    // Don't redirect while loading
+    if (!loading && !user) {
       router.push("/signin");
     }
-  }, [user, router]);
+  }, [user, loading, router]);
+
+  if (loading) {
+    // You can show a loader, skeleton or shimmer here
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        Loading...
+      </div>
+    );
+  }
 
   if (!user) {
     return null;

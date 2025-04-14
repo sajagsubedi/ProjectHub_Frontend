@@ -27,3 +27,30 @@ export const GETALLPROJECTS = gql`
     }
   }
 `;
+
+export const GET_PROJECTBYID = gql`
+  query GetProjectById($getProjectByIdId: ID!) {
+    getProjectById(id: $getProjectByIdId) {
+      _id
+      projectName
+      description
+      motive
+      status
+      category
+      startDate
+      deadline
+      features
+      draftUi {
+        url
+        public_id
+      }
+      links {
+        source
+        deployment
+      }
+      tutorials
+      isPinned
+      techStack
+    }
+  }
+`;

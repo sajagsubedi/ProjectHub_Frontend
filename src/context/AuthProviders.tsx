@@ -40,7 +40,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    console.log(data);
     if (data?.authUser) {
       setUser(data.authUser);
     } else {
@@ -49,7 +48,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, [data]);
 
   const refetchUser = () => {
-    console.log("Refetching user");
     refetch();
   };
   if (!isClient || loading) {
