@@ -4,7 +4,6 @@
 import React from "react";
 import Link from "next/link";
 import { ProjectType } from "@/types/Project.types";
-import { PiNeedle } from "react-icons/pi";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { MdOutlinePushPin, MdPushPin } from "react-icons/md";
 
@@ -48,15 +47,15 @@ const ProjectCard = ({ project }: { project: ProjectType }) => {
           <span
             className={`px-4 py-2 rounded-full text-sm font-medium
                   ${
-                    project.status === "Pending"
+                    status === "Pending"
                       ? "bg-yellow-100 text-yellow-800"
-                      : project.status === "InProgress"
+                      : status === "InProgress"
                       ? "bg-blue-100 text-blue-800"
-                      : project.status === "Designing"
+                      : status === "Designing"
                       ? "bg-purple-100 text-purple-800"
-                      : project.status === "Closed"
+                      : status === "Closed"
                       ? "bg-gray-100 text-gray-800"
-                      : project.status === "Open"
+                      : status === "Open"
                       ? "bg-green-100 text-green-800"
                       : "bg-gray-100 text-gray-800"
                   }`}
@@ -68,22 +67,29 @@ const ProjectCard = ({ project }: { project: ProjectType }) => {
         <div className="text-gray-600 mb-4">
           <div className="font-medium mb-2">
             Deadline:
-            {project.deadline ? project.deadline.toString() : "No deadline"}
+            {deadline
+              ? new Date(Number(deadline)).toLocaleDateString("en-GB", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })
+              : " No deadline"}
           </div>
         </div>
 
         <div className="mb-4">
           <div className="font-medium text-gray-700 mb-2">Tech Stack:</div>
           <div className="flex flex-wrap gap-1 mt-1">
-            {techStack &&
-              techStack.slice(0, 3).map((tech, index) => (
-                <span
-                  key={index}
-                  className="inline-block px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-full"
-                >
-                  {tech}
-                </span>
-              ))}
+            {techStack && techStack?.length != 0
+              ? techStack.slice(0, 3).map((tech, index) => (
+                  <span
+                    key={index}
+                    className="inline-block px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-full"
+                  >
+                    {tech}
+                  </span>
+                ))
+              : (<p className="text-gray-600">Not Mentioned</p>)}
             {techStack && techStack.length > 3 && (
               <span className="inline-block px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-full">
                 +{techStack.length - 3}
@@ -95,7 +101,7 @@ const ProjectCard = ({ project }: { project: ProjectType }) => {
         <div className="mt-auto">
           <Link
             className="w-full bg-rose-500 text-white py-2 rounded hover:bg-rose-600 transition-colors flex items-center justify-center gap-2 text-base"
-            href={`/dashboard/projects/${project._id}`}
+            href={`/dashboard/projects/${_id}`}
           >
             <span>View Details</span>
             <FaExternalLinkAlt size={18} />

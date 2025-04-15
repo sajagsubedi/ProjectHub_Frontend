@@ -18,13 +18,24 @@ export interface ProjectType {
   _id: string;
   projectName: string;
   description: string;
+  motive?: string;
   category?: categoryEnum;
   status?: statusEnum;
+  startDate?: Date;
   deadline?: Date;
   techStack?: string[];
+  features?: string[];
+  draftUi?: {
+    url: string;
+    public_id: string;
+  }[];
   links?: {
     source?: string;
     deployment?: string;
   };
-  isPinned?: true;
+  tutorials?: {
+    label: string;
+    url: string;
+  }[];
+  isPinned: boolean;
 }

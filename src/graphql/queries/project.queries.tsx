@@ -49,7 +49,10 @@ export const GET_PROJECTBYID = gql`
         source
         deployment
       }
-      tutorials
+      tutorials {
+        url
+        label
+      }
       isPinned
       techStack
     }

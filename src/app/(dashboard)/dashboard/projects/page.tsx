@@ -6,8 +6,7 @@ import { useQuery } from "@apollo/client";
 import { GETALLPROJECTS } from "@/graphql";
 import { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
-import { FaExternalLinkAlt, FaPlus } from "react-icons/fa";
-import { PiNeedle } from "react-icons/pi";
+import { FaPlus } from "react-icons/fa";
 import Link from "next/link";
 
 const categories = ["All", "Web", "Mobile", "AI", "DataScience", "Other"];
@@ -60,7 +59,7 @@ export default function PinnedProjects() {
           href="/dashboard/projects/create"
         >
           <FaPlus />
-          Create Project
+          New Project
         </Link>
       </div>
       <div className="flex flex-col sm:flex-row gap-4 mb-8">
