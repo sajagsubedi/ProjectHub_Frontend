@@ -3,6 +3,7 @@
 import { useAuth } from "@/context/AuthProviders";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import LoadingPage from "../publicComponents/LoadingPage";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
@@ -17,11 +18,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (loading) {
     // You can show a loader, skeleton or shimmer here
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        Loading...
-      </div>
-    );
+    return <LoadingPage />;
   }
 
   if (!user) {

@@ -29,7 +29,7 @@ export default function Page() {
   const { user } = useAuth();
 
   const [signin, { loading, error }] = useMutation(SIGN_IN, {
-    refetchQueries: [GET_AUTHUSER],
+    refetchQueries: [{ query: GET_AUTHUSER }],
   });
 
   const router = useRouter();
@@ -43,10 +43,10 @@ export default function Page() {
         },
       });
 
-      const { refreshToken, accessToken } = response.data.signin;
+      const { accessToken } = response.data.signin;
       toast.success("Signin successsfull! Proceed to dashboard");
       localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
+
       // reset form values
       reset();
     } catch (err) {
@@ -57,7 +57,7 @@ export default function Page() {
 
   useEffect(() => {
     if (user) {
-      console.log(user)
+      console.log(user);
       router.push("/dashboard");
     }
   }, [user, router]);

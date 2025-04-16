@@ -68,7 +68,7 @@ function Page() {
   });
 
   const [createProject, { loading }] = useMutation(CREATE_PROJECT, {
-    refetchQueries: [GETALLPROJECTS],
+    refetchQueries: [{ query: GETALLPROJECTS }],
   });
 
   const onSubmit: SubmitHandler<CreateProjectInput> = async (data) => {
@@ -132,14 +132,15 @@ function Page() {
   };
 
   return (
-    <main className="w-full px-[5vw] py-14 bg-gray-50">
+    <main className="w-full px-2  py-2 bg-gray-50">
       <button
         className="text-white py-2 p-1 rounded outline-none bg-rose-500 mb-10 flex gap-2 items-center justify-center hover:bg-rose-600"
         onClick={() => window.history.back()}
       >
         <FaArrowLeft /> Back
       </button>
-      <section className="md:px-10 shadow-2xl rounded-lg p-5 py-5 ">
+
+      <section className="md:px-10 shadow-2xl rounded-lg p-5 py-5 md:mx-[5vw]">
         <h2 className="text-2xl text-center text-rose-500 font-semibold mb-5">
           Create Project
         </h2>

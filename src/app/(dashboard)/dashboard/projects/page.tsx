@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { FaPlus } from "react-icons/fa";
 import Link from "next/link";
+import LoadingPage from "@/components/publicComponents/LoadingPage";
 
 const categories = ["All", "Web", "Mobile", "AI", "DataScience", "Other"];
 const statuses = [
@@ -25,6 +26,7 @@ export default function PinnedProjects() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
+    console.log(data);
     if (data) {
       setProjects(data.getAllProjects);
     }
@@ -44,6 +46,10 @@ export default function PinnedProjects() {
       project.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesStatus && matchesSearch;
   });
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <section className="container mx-auto px-[5vw] py-10">

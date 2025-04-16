@@ -1,8 +1,7 @@
-"use client";
-
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext } from "react";
 import { useQuery } from "@apollo/client";
 import { GET_AUTHUSER } from "@/graphql";
+import LoadingPage from "@/components/publicComponents/LoadingPage";
 
 interface User {
   _id?: string;
@@ -31,31 +30,15 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { data, loading, refetch } = useQuery(GET_AUTHUSER);
-  const [user, setUser] = useState<User | null>(null);
-
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (data?.authUser) {
-      setUser(data.authUser);
-    } else {
-      setUser(null);
-    }
-  }, [data]);
 
   const refetchUser = () => {
     refetch();
   };
-  if (!isClient || loading) {
-    return null;
-  }
 
   return (
-    <AuthContext.Provider value={{ user, loading, refetchUser }}>
+    <AuthContext.Provider
+      value={{ user: data?.authUser, loading, refetchUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

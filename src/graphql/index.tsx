@@ -1,4 +1,9 @@
-import { SIGN_UP, SIGN_IN, SIGN_OUT } from "./mutations/user.mutations";
+import {
+  SIGN_UP,
+  SIGN_IN,
+  SIGN_OUT,
+  REFETCH_ACCESS_TOKEN,
+} from "./mutations/user.mutations";
 import { CREATE_PROJECT } from "./mutations/project.mutations";
 import { GET_AUTHUSER } from "./queries/user.queries";
 import {
@@ -10,9 +15,10 @@ import {
 export {
   SIGN_UP,
   SIGN_IN,
+  SIGN_OUT,
+  REFETCH_ACCESS_TOKEN,
   GET_AUTHUSER,
   GETPINNEDPROJECTS,
-  SIGN_OUT,
   GETALLPROJECTS,
   GET_PROJECTBYID,
   CREATE_PROJECT,

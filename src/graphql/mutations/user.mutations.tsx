@@ -24,7 +24,6 @@ export const SIGN_IN = gql`
   mutation Signin($identifier: String!, $password: String!) {
     signin(identifier: $identifier, password: $password) {
       accessToken
-      refreshToken
     }
   }
 `;
@@ -33,6 +32,14 @@ export const SIGN_OUT = gql`
   mutation Signout {
     signout {
       username
+    }
+  }
+`;
+
+export const REFETCH_ACCESS_TOKEN = gql`
+  mutation RefetchAccessToken {
+    refetchAccessToken {
+      accessToken
     }
   }
 `;

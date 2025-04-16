@@ -18,6 +18,7 @@ import Image from "next/image";
 import { useQuery } from "@apollo/client";
 import { GET_PROJECTBYID } from "@/graphql";
 import { ProjectType } from "@/types/Project.types";
+import LoadingPage from "@/components/publicComponents/LoadingPage";
 
 export default function Page({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -44,17 +45,19 @@ export default function Page({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     if (data) {
-      setProject(data?.getProjectById);
-      setVisibleImages(
-        showAllImages
-          ? data?.getProjectById.draftUi
-          : data?.getProjectById.draftUi?.slice(0, 3)
-      );
+      if (data.getProjectById) {
+        setProject(data?.getProjectById);
+        setVisibleImages(
+          showAllImages
+            ? data?.getProjectById.draftUi
+            : data?.getProjectById.draftUi?.slice(0, 3)
+        );
+      }
     }
   }, [data, showAllImages]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingPage />;
   }
 
   return (
@@ -101,7 +104,9 @@ export default function Page({ params }: { params: { id: string } }) {
                 <h3 className="text-lg font-semibold mt-4 mb-2 text-rose-500">
                   Motive
                 </h3>
-                <p className="text-gray-700">{project.motive?project.motive:"Not mentioned!"}</p>
+                <p className="text-gray-700">
+                  {project.motive ? project.motive : "Not mentioned!"}
+                </p>
               </div>
 
               {/* Features section */}
@@ -297,7 +302,7 @@ export default function Page({ params }: { params: { id: string } }) {
           </div>
         </section>
       ) : (
-        <p>No project found</p>
+        <p>No project found!</p>
       )}
     </main>
   );

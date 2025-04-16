@@ -1,7 +1,12 @@
 "use client";
 
 import { useAuth } from "@/context/AuthProviders";
-import { SIGN_OUT, GET_AUTHUSER } from "@/graphql";
+import {
+  SIGN_OUT,
+  GET_AUTHUSER,
+  GETALLPROJECTS,
+  GETPINNEDPROJECTS,
+} from "@/graphql";
 import { useMutation, ApolloError } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,13 +26,13 @@ const UserDropDown = ({
   const router = useRouter();
 
   const [signout, { loading: signoutLoading }] = useMutation(SIGN_OUT, {
-    // Optionally update the cache to clear the authUser
     update(cache) {
       cache.writeQuery({
         query: GET_AUTHUSER,
         data: { authUser: null },
       });
     },
+    refetchQueries: [{ query: GETALLPROJECTS }],
   });
 
   const handleSignout = async () => {
@@ -35,7 +40,6 @@ const UserDropDown = ({
       await signout();
       // Clear tokens from local storage
       localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
 
       // Refetch user to update the auth state
       refetchUser();
