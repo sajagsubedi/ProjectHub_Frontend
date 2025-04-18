@@ -107,3 +107,23 @@ export const DELETE_PROJECT = gql`
     }
   }
 `;
+
+export const EDIT_DRAFT_UI = gql`
+  mutation EditDraftUi(
+    $id: ID!
+    $files: [Upload]!
+    $order: [DraftUiOrderInput]!
+  ) {
+    editDraftUi(
+      id: $id
+      files: $files
+      order: $order
+    ) {
+      _id
+      draftUi {
+        url
+        public_id
+      }
+    }
+  }
+`;

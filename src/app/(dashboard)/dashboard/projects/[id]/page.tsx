@@ -29,6 +29,7 @@ import EditTechStack from "@/components/modals/EditTechStack";
 import EditFeatures from "@/components/modals/EditFeatures";
 import EditLinks from "@/components/modals/EditLinks";
 import EditTutorials from "@/components/modals/EditTutorials";
+import EditUIDrafts from "@/components/modals/EditUIDrafts";
 import { useConfirm } from "@/context/ConfirmProvider";
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -52,6 +53,7 @@ export default function Page({ params }: { params: { id: string } }) {
     features: false,
     links: false,
     tutorials: false,
+    uiDrafts: false,
   });
 
   const [pinProject] = useMutation(PIN_PROJECT, {
@@ -126,6 +128,13 @@ export default function Page({ params }: { params: { id: string } }) {
     }));
   };
 
+  const changeUIDraftsModal = (val: boolean) => {
+    setModalState((p) => ({
+      ...p,
+      uiDrafts: val,
+    }));
+  };
+
   const handlePinClick = async () => {
     try {
       await pinProject({
@@ -191,6 +200,12 @@ export default function Page({ params }: { params: { id: string } }) {
       {modalState.tutorials && (
         <EditTutorials
           changeTutorialsModal={changeTutorialsModal}
+          projectInfo={project as ProjectType}
+        />
+      )}
+      {modalState.uiDrafts && (
+        <EditUIDrafts
+          changeUIDraftsModal={changeUIDraftsModal}
           projectInfo={project as ProjectType}
         />
       )}
@@ -287,13 +302,13 @@ export default function Page({ params }: { params: { id: string } }) {
 
               {/* UI Drafts */}
               <div className="bg-white rounded-xl p-4 md:p-6 shadow-sm border border-gray-100 relative">
-                <a
-                  href={`/dashboard/projects/${id}/edit?section=ui-drafts`}
+                <button
                   className="absolute top-4 right-4 text-gray-400 hover:text-rose-500 transition-colors"
                   title="Edit UI Drafts"
+                  onClick={() => changeUIDraftsModal(true)}
                 >
                   <FaEdit className="w-4 h-4" />
-                </a>
+                </button>
                 <div className="flex items-center gap-2 mb-4">
                   <h2 className="text-lg md:text-xl font-semibold text-rose-500">
                     UI Drafts
