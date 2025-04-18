@@ -4,12 +4,13 @@
 import React from "react";
 import Link from "next/link";
 import { ProjectType } from "@/types/Project.types";
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { FaExternalLinkAlt, FaTrash } from "react-icons/fa";
 import { MdOutlinePushPin, MdPushPin } from "react-icons/md";
 import { useMutation } from "@apollo/client";
-import { PIN_PROJECT, GETALLPROJECTS } from "@/graphql";
+import { PIN_PROJECT, DELETE_PROJECT, GETALLPROJECTS } from "@/graphql";
 import { toast } from "react-toastify";
 import { ApolloError } from "@apollo/client";
+import { useConfirm } from "@/context/ConfirmProvider";
 
 const ProjectCard = ({ project }: { project: ProjectType }) => {
   const {
@@ -27,13 +28,39 @@ const ProjectCard = ({ project }: { project: ProjectType }) => {
     refetchQueries: [{ query: GETALLPROJECTS }],
   });
 
+  const [deleteProject] = useMutation(DELETE_PROJECT, {
+    refetchQueries: [{ query: GETALLPROJECTS }],
+  });
+
   const handlePinClick = async (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent navigation when clicking pin
+    e.preventDefault();
     try {
       await pinProject({
         variables: { id: _id },
       });
-      toast.success(`Project ${isPinned ? "unpinned" : "pinned"} successfully!`);
+      toast.success(
+        `Project ${isPinned ? "unpinned" : "pinned"} successfully!`
+      );
+    } catch (err) {
+      const error = err as ApolloError;
+      toast.error(error?.message || "Something went wrong");
+    }
+  };
+
+  const { showAlert, onConfirm } = useConfirm();
+
+  const handleDelete = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    showAlert("project");
+    onConfirm(handleDeleteConfirm);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await deleteProject({
+        variables: { id: _id },
+      });
+      toast.success("Project deleted successfully!");
     } catch (err) {
       const error = err as ApolloError;
       toast.error(error?.message || "Something went wrong");
@@ -48,20 +75,31 @@ const ProjectCard = ({ project }: { project: ProjectType }) => {
       <div className="flex flex-col h-full">
         <div className="flex justify-between items-start mb-2">
           <h2 className="text-2xl font-bold text-rose-500">{projectName}</h2>
-          <button
-            onClick={handlePinClick}
-            className="text-rose-500 hover:text-rose-600 transition-colors"
-            title={isPinned ? "Unpin Project" : "Pin Project"}
-          >
-            {isPinned ? (
-              <MdPushPin size={20} />
-            ) : (
-              <MdOutlinePushPin size={20} />
-            )}
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handlePinClick}
+              className="text-rose-500 hover:text-rose-600 transition-colors"
+              title={isPinned ? "Unpin Project" : "Pin Project"}
+            >
+              {isPinned ? (
+                <MdPushPin size={20} />
+              ) : (
+                <MdOutlinePushPin size={20} />
+              )}
+            </button>
+            <button
+              onClick={handleDelete}
+              className="text-rose-500 hover:text-rose-600 transition-colors"
+              title="Delete Project"
+            >
+              <FaTrash size={18} />
+            </button>
+          </div>
         </div>
 
-        <p className="text-gray-600 text-base mb-4 line-clamp-2">{description}</p>
+        <p className="text-gray-600 text-base mb-4 line-clamp-2">
+          {description}
+        </p>
 
         <div className="flex flex-wrap gap-2 mb-4">
           <span className="px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-800">

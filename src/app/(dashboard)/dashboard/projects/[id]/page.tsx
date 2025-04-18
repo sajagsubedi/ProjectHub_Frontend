@@ -20,7 +20,7 @@ import { MdPushPin, MdOutlinePushPin } from "react-icons/md";
 import { LuBoxes } from "react-icons/lu";
 import Image from "next/image";
 import { useQuery } from "@apollo/client";
-import { GET_PROJECTBYID, PIN_PROJECT } from "@/graphql";
+import { GET_PROJECTBYID, PIN_PROJECT, DELETE_PROJECT, GETALLPROJECTS } from "@/graphql";
 import { ProjectType } from "@/types/Project.types";
 import LoadingPage from "@/components/publicComponents/LoadingPage";
 import { useRouter } from "next/navigation";
@@ -29,6 +29,7 @@ import EditTechStack from "@/components/modals/EditTechStack";
 import EditFeatures from "@/components/modals/EditFeatures";
 import EditLinks from "@/components/modals/EditLinks";
 import EditTutorials from "@/components/modals/EditTutorials";
+import { useConfirm } from "@/context/ConfirmProvider";
 
 export default function Page({ params }: { params: { id: string } }) {
   const { id } = params;
@@ -57,10 +58,27 @@ export default function Page({ params }: { params: { id: string } }) {
     refetchQueries: [{ query: GET_PROJECTBYID, variables: { getProjectByIdId: id } }],
   });
 
-  const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete this project?")) {
-      // TODO: Implement delete functionality
-      console.log("Delete project:", id);
+  const [deleteProject] = useMutation(DELETE_PROJECT, {
+    refetchQueries: [{ query: GETALLPROJECTS }],
+  });
+
+  const { showAlert, onConfirm } = useConfirm();
+
+  const handleDelete = async () => {
+    showAlert("project");
+    onConfirm(handleDeleteConfirm);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await deleteProject({
+        variables: { id },
+      });
+      toast.success("Project deleted successfully!");
+      router.push("/dashboard/projects");
+    } catch (err) {
+      const error = err as ApolloError;
+      toast.error(error?.message || "Something went wrong");
     }
   };
 

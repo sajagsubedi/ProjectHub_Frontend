@@ -1,5 +1,6 @@
 // app/dashboard/layout.tsx
 import DashboardSideBar from "@/components/dashboardComponents/DashboardSideBar";
+import { ConfirmProvider } from "@/context/ConfirmProvider";
 import ProtectedRoute from "@/components/Wrapper/ProtectedRoute";
 
 export const metadata = {
@@ -14,8 +15,10 @@ export default function DashboardLayout({
 }) {
   return (
     <ProtectedRoute>
-      <DashboardSideBar />
-      {children}
+      <ConfirmProvider>
+        <DashboardSideBar />
+        {children}
+      </ConfirmProvider>
     </ProtectedRoute>
   );
 }
