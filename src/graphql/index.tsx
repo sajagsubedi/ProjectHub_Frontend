@@ -4,7 +4,7 @@ import {
   SIGN_OUT,
   REFETCH_ACCESS_TOKEN,
 } from "./mutations/user.mutations";
-import { CREATE_PROJECT } from "./mutations/project.mutations";
+import { CREATE_PROJECT, EDIT_PROJECT ,PIN_PROJECT} from "./mutations/project.mutations";
 import { GET_AUTHUSER } from "./queries/user.queries";
 import {
   GETPINNEDPROJECTS,
@@ -22,4 +22,6 @@ export {
   GETALLPROJECTS,
   GET_PROJECTBYID,
   CREATE_PROJECT,
+  EDIT_PROJECT,
+  PIN_PROJECT
 };

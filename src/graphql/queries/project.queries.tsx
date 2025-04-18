@@ -25,6 +25,7 @@ export const GETALLPROJECTS = gql`
       category
       deadline
       techStack
+      isPinned
     }
   }
 `;

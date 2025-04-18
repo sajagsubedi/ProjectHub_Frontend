@@ -19,12 +19,6 @@ const StatusTypeEnum = z.enum([
   "Open",
 ]);
 
-// Define the DraftUi schema
-const DraftUiSchema = z.object({
-  url: z.string().url("URL must be a valid URL"), // Required URL
-  public_id: z.string().min(1, "Public ID is required"), // Required public_id
-});
-
 // Define the LinksInput schema
 const LinksInputSchema = z.object({
   source: z.string().optional(), // Optional source link

@@ -34,7 +34,7 @@ const errorLink = onError(
             refreshAccessToken()
               .then((value: { accessToken: string }) => {
                 const newAccessToken = value.accessToken;
-                console.log(value);
+                console.log("refetched token is ", value);
                 if (newAccessToken) {
                   localStorage.setItem("accessToken", newAccessToken);
                 }

@@ -6,15 +6,16 @@ import { useForm, useFieldArray, SubmitHandler } from "react-hook-form";
 import { FaArrowLeft, FaExternalLinkAlt, FaLink, FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import {
-  CategoryTypeEnum,
   CreateProjectInput,
   createProjectSchema,
-  StatusTypeEnum,
 } from "@/schemas/createProjectSchema";
 import { toast } from "react-toastify";
 import { ApolloError, useMutation } from "@apollo/client";
 import { CREATE_PROJECT, GETALLPROJECTS } from "@/graphql";
-import { ProjectType } from "@/types/Project.types";
+import { useRouter } from "next/navigation";
+import ProjectOverview from "@/components/forms/ProjectOverview";
+import TechStackForm from "@/components/forms/TechStackForm";
+import FeaturesForm from "@/components/forms/FeaturesForm";
 
 function Page() {
   const {
@@ -131,11 +132,13 @@ function Page() {
     }
   };
 
+  const router = useRouter();
+
   return (
     <main className="w-full px-2  py-2 bg-gray-50">
       <button
         className="text-white py-2 p-1 rounded outline-none bg-rose-500 mb-10 flex gap-2 items-center justify-center hover:bg-rose-600"
-        onClick={() => window.history.back()}
+        onClick={() => router.back()}
       >
         <FaArrowLeft /> Back
       </button>
@@ -145,203 +148,9 @@ function Page() {
           Create Project
         </h2>
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          {/* Basic Information */}
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label
-                  htmlFor="projectName"
-                  className="leading-7 text-sm text-gray-600"
-                >
-                  Project Name(<span className="text-red-500">*</span>)
-                </label>
-                <input
-                  type="text"
-                  id="projectName"
-                  {...register("projectName")}
-                  required
-                  placeholder="Enter the project name"
-                  className="w-full bg-white rounded border border-gray-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                <div>
-                  <label
-                    className="leading-7 text-sm text-gray-600"
-                    htmlFor="category"
-                  >
-                    Category(<span className="text-red-500">*</span>)
-                  </label>
-                  <select
-                    {...register("category")}
-                    className="w-full bg-white rounded border border-gray-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  >
-                    {Object.values(CategoryTypeEnum.enum).map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label
-                    className="leading-7 text-sm text-gray-600"
-                    htmlFor="status"
-                  >
-                    Status(<span className="text-red-500">*</span>)
-                  </label>
-                  <select
-                    {...register("status")}
-                    className="w-full bg-white rounded border border-gray-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out [&>option:checked]:text-rose-500 [&>option:checked]:bg-rose-50"
-                  >
-                    {Object.values(StatusTypeEnum.enum).map((status) => (
-                      <option key={status} value={status}>
-                        {status}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label
-                  htmlFor="description"
-                  className="leading-7 text-sm text-gray-600"
-                >
-                  Project Description(<span className="text-red-500">*</span>)
-                </label>
-                <textarea
-                  {...register("description")}
-                  required
-                  rows={2}
-                  className="w-full bg-white rounded border border-gray-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="motive"
-                  className="leading-7 text-sm text-gray-600"
-                >
-                  Motive
-                </label>
-                <textarea
-                  {...register("motive")}
-                  rows={2}
-                  className="w-full bg-white rounded border border-gray-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Dates */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label
-                className="block text-sm font-medium text-gray-700 mb-1"
-                htmlFor="startDate"
-              >
-                Start Date
-              </label>
-              <input
-                type="date"
-                {...register("startDate")}
-                className="w-full bg-white rounded border border-gray-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-              />
-            </div>
-            <div>
-              <label
-                className="block text-sm font-medium text-gray-700 mb-1"
-                htmlFor="deadline"
-              >
-                Deadline
-              </label>
-              <input
-                type="date"
-                {...register("deadline")}
-                className="w-full bg-white rounded border border-gray-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-              />
-            </div>
-          </div>
-
-          {/* Tech Stack */}
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Tech Stack
-              </label>
-              <button
-                type="button"
-                onClick={() => appendTech({ value: "" })}
-                className="text-rose-500 text-sm flex items-center gap-1"
-              >
-                <FaPlus size={16} /> Add Technology
-              </button>
-            </div>
-            <div className="flex gap-4 flex-wrap">
-              {techStackFields.map((field, index) => (
-                <div
-                  key={field.id}
-                  className="flex gap-2 mb-2 bg-white rounded-md border border-gray-300 overflow-hidden transition-all duration-200 focus-within:border-rose-500 focus-within:ring-2 focus-within:ring-rose-200 "
-                >
-                  <input
-                    {...register(`techStack.${index}.value`)}
-                    className="w-full bg-white text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    placeholder="Eg: React, Next.js"
-                  />
-                  {techStackFields.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => removeTech(index)}
-                      className="text-gray-400 hover:text-gray-600"
-                    >
-                      <MdDelete size={20} />
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Features */}
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Features
-              </label>
-              <button
-                type="button"
-                onClick={() => appendFeature({ value: "" })}
-                className="text-rose-500 hover:text-rose-600 text-sm flex items-center gap-1"
-              >
-                <FaPlus size={16} /> Add Feature
-              </button>
-            </div>
-            {featureFields.map((field, index) => (
-              <div
-                key={field.id}
-                className="flex gap-2 mb-2 bg-white rounded-md border border-gray-300 overflow-hidden transition-all duration-200 focus-within:border-rose-500 focus-within:ring-2 focus-within:ring-rose-200"
-              >
-                <input
-                  {...register(`features.${index}.value`)}
-                  className="w-full bg-white text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  placeholder="Enter a feature"
-                />
-                {featureFields.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeFeature(index)}
-                    className="text-gray-400 hover:text-gray-600"
-                  >
-                    <MdDelete size={20} />
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
+          <ProjectOverview register={register} />
+          <TechStackForm register={register} techStackFields={techStackFields} appendTech={appendTech} removeTech={removeTech}/>
+          <FeaturesForm register={register} featureFields={featureFields} appendFeature={appendFeature} removeFeature={removeFeature}/>
 
           {/* Links */}
           <div className="space-y-4">

@@ -1,10 +1,14 @@
+"use client";
+
 import React from "react";
-import { FaHome } from "react-icons/fa";
+import { FaHome, FaArrowLeft } from "react-icons/fa";
 import { LuFileQuestion } from "react-icons/lu";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function NotFound() {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white flex items-center justify-center p-4">
       <div className="max-w-2xl w-full text-center">
@@ -31,8 +35,15 @@ export default function NotFound() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <button
+            onClick={() => router.back()}
+            className="bg-white border-rose-500 hover:bg-rose-100 transition-all transform hover:scale-105 shadow-sm border-2 outline-none py-2 px-5 font-bold rounded text-rose-500 flex items-center gap-2 max-w-max"
+          >
+            <FaArrowLeft className="w-5 h-5 mr-2" />
+            Go Back
+          </button>
           <Link
-            className="inline-flex items-center justify-center px-6 py-3 bg-rose-500 text-white rounded-lg hover:bg-rose-600 transition-colors duration-200 w-max"
+            className="bg-rose-500 border-2 border-rose-500 transition-all transform hover:scale-105 outline-none py-2 px-5 font-bold rounded text-white flex items-center gap-2 max-w-max "
             href="/"
           >
             <FaHome className="w-5 h-5 mr-2" />
